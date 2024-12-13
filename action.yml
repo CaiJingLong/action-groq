@@ -1,23 +1,39 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Groq Text Summarization'
+description: 'Summarize text using Groq API'
+author: 'CaiJingLong'
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
-  icon: 'heart'
-  color: 'red'
+  icon: 'book'
+  color: 'purple'
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  text:
+    description: 'The text content to be summarized'
     required: true
-    default: '1000'
+  api_key:
+    description: 'Groq API Key'
+    required: true
+  model:
+    description: 'Groq model to use (llama-3.3-70b-versatile has a context window of 8192 tokens)'
+    required: false
+    default: 'llama-3.3-70b-versatile'
+  max_tokens:
+    description: 'Maximum number of tokens in the summary (model has a context window of 8192 tokens). For text summarization, a value between 500-1000 is recommended for comprehensive summaries.'
+    required: false
+    default: '500'
+  prompt:
+    description: 'Custom system prompt for the summarization'
+    required: false
+    default: 'You are a helpful assistant that summarizes text concisely and accurately. Please provide a clear and comprehensive summary of the following text.'
 
 # Define your outputs here.
 outputs:
-  time:
-    description: 'Your output description here'
+  summary:
+    description: 'The generated summary of the input text'
+  error:
+    description: 'Error message if the summarization failed'
 
 runs:
   using: node20

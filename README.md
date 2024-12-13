@@ -1,263 +1,368 @@
-# Create a GitHub Action Using TypeScript
+# Groq Text Summarization Action
 
-[![GitHub Super-Linter](https://github.com/actions/typescript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
-![CI](https://github.com/actions/typescript-action/actions/workflows/ci.yml/badge.svg)
-[![Check dist/](https://github.com/actions/typescript-action/actions/workflows/check-dist.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/check-dist.yml)
-[![CodeQL](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml)
-[![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
+A GitHub Action that uses Groq API to summarize text content. It helps you
+automate the summarization of documents, comments, issue descriptions, and other
+text content.
 
-Use this template to bootstrap the creation of a TypeScript action. :rocket:
+[中文文档](#chinese-readme)
 
-This template includes compilation support, tests, a validation workflow,
-publishing, and versioning guidance.
+## Features
 
-If you are new, there's also a simpler introduction in the
-[Hello world JavaScript action repository](https://github.com/actions/hello-world-javascript-action).
-
-## Create Your Own Action
-
-To create your own action, you can use this repository as a template! Just
-follow the below instructions:
-
-1. Click the **Use this template** button at the top of the repository
-1. Select **Create a new repository**
-1. Select an owner and name for your new repository
-1. Click **Create repository**
-1. Clone your new repository
-
-> [!IMPORTANT]
->
-> Make sure to remove or update the [`CODEOWNERS`](./CODEOWNERS) file! For
-> details on how to use this file, see
-> [About code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
-
-## Initial Setup
-
-After you've cloned the repository to your local machine or codespace, you'll
-need to perform some initial setup steps before you can develop your action.
-
-> [!NOTE]
->
-> You'll need to have a reasonably modern version of
-> [Node.js](https://nodejs.org) handy (20.x or later should work!). If you are
-> using a version manager like [`nodenv`](https://github.com/nodenv/nodenv) or
-> [`fnm`](https://github.com/Schniz/fnm), this template has a `.node-version`
-> file at the root of the repository that can be used to automatically switch to
-> the correct version when you `cd` into the repository. Additionally, this
-> `.node-version` file is used by GitHub Actions in any `actions/setup-node`
-> actions.
-
-1. :hammer_and_wrench: Install the dependencies
-
-   ```bash
-   npm install
-   ```
-
-1. :building_construction: Package the TypeScript for distribution
-
-   ```bash
-   npm run bundle
-   ```
-
-1. :white_check_mark: Run the tests
-
-   ```bash
-   $ npm test
-
-   PASS  ./index.test.js
-     ✓ throws invalid number (3ms)
-     ✓ wait 500 ms (504ms)
-     ✓ test runs (95ms)
-
-   ...
-   ```
-
-## Update the Action Metadata
-
-The [`action.yml`](action.yml) file defines metadata about your action, such as
-input(s) and output(s). For details about this file, see
-[Metadata syntax for GitHub Actions](https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions).
-
-When you copy this repository, update `action.yml` with the name, description,
-inputs, and outputs for your action.
-
-## Update the Action Code
-
-The [`src/`](./src/) directory is the heart of your action! This contains the
-source code that will be run when your action is invoked. You can replace the
-contents of this directory with your own code.
-
-There are a few things to keep in mind when writing your action code:
-
-- Most GitHub Actions toolkit and CI/CD operations are processed asynchronously.
-  In `main.ts`, you will see that the action is run in an `async` function.
-
-  ```javascript
-  import * as core from '@actions/core'
-  //...
-
-  async function run() {
-    try {
-      //...
-    } catch (error) {
-      core.setFailed(error.message)
-    }
-  }
-  ```
-
-  For more information about the GitHub Actions toolkit, see the
-  [documentation](https://github.com/actions/toolkit/blob/master/README.md).
-
-So, what are you waiting for? Go ahead and start customizing your action!
-
-1. Create a new branch
-
-   ```bash
-   git checkout -b releases/v1
-   ```
-
-1. Replace the contents of `src/` with your action code
-1. Add tests to `__tests__/` for your source code
-1. Format, test, and build the action
-
-   ```bash
-   npm run all
-   ```
-
-   > This step is important! It will run [`ncc`](https://github.com/vercel/ncc)
-   > to build the final JavaScript action code with all dependencies included.
-   > If you do not run this step, your action will not work correctly when it is
-   > used in a workflow. This step also includes the `--license` option for
-   > `ncc`, which will create a license file for all of the production node
-   > modules used in your project.
-
-1. (Optional) Test your action locally
-
-   The [`@github/local-action`](https://github.com/github/local-action) utility
-   can be used to test your action locally. It is a simple command-line tool
-   that "stubs" (or simulates) the GitHub Actions Toolkit. This way, you can run
-   your TypeScript action locally without having to commit and push your changes
-   to a repository.
-
-   The `local-action` utility can be run in the following ways:
-
-   - Visual Studio Code Debugger
-
-     Make sure to review and, if needed, update
-     [`.vscode/launch.json`](./.vscode/launch.json)
-
-   - Terminal/Command Prompt
-
-     ```bash
-     # npx local action <action-yaml-path> <entrypoint> <dotenv-file>
-     npx local-action . src/main.ts .env
-     ```
-
-   You can provide a `.env` file to the `local-action` CLI to set environment
-   variables used by the GitHub Actions Toolkit. For example, setting inputs and
-   event payload data used by your action. For more information, see the example
-   file, [`.env.example`](./.env.example), and the
-   [GitHub Actions Documentation](https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables).
-
-1. Commit your changes
-
-   ```bash
-   git add .
-   git commit -m "My first action is ready!"
-   ```
-
-1. Push them to your repository
-
-   ```bash
-   git push -u origin releases/v1
-   ```
-
-1. Create a pull request and get feedback on your action
-1. Merge the pull request into the `main` branch
-
-Your action is now published! :rocket:
-
-For information about versioning your action, see
-[Versioning](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-in the GitHub Actions toolkit.
-
-## Validate the Action
-
-You can now validate the action by referencing it in a workflow file. For
-example, [`ci.yml`](./.github/workflows/ci.yml) demonstrates how to reference an
-action in the same repository.
-
-```yaml
-steps:
-  - name: Checkout
-    id: checkout
-    uses: actions/checkout@v4
-
-  - name: Test Local Action
-    id: test-action
-    uses: ./
-    with:
-      milliseconds: 1000
-
-  - name: Print Output
-    id: output
-    run: echo "${{ steps.test-action.outputs.time }}"
-```
-
-For example workflow runs, check out the
-[Actions tab](https://github.com/actions/typescript-action/actions)! :rocket:
+- Text summarization using Groq API
+- Customizable model selection
+- Configurable output length (up to 8192 tokens context window)
+- Customizable system prompt
+- Easy-to-use interface
 
 ## Usage
 
-After testing, you can create version tag(s) that developers can use to
-reference different stable versions of your action. For more information, see
-[Versioning](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-in the GitHub Actions toolkit.
+### Prerequisites
 
-To include the action in a workflow in another repository, you can use the
-`uses` syntax with the `@` symbol to reference a specific branch, tag, or commit
-hash.
+1. You need a Groq API key. Get it from
+   [Groq Console](https://console.groq.com).
+2. Set up the `GROQ_API_KEY` secret in your GitHub repository.
+
+### Basic Usage
 
 ```yaml
-steps:
-  - name: Checkout
-    id: checkout
-    uses: actions/checkout@v4
+name: Summarize Text
+on:
+  issues:
+    types: [opened, edited]
 
-  - name: Test Local Action
-    id: test-action
-    uses: actions/typescript-action@v1 # Commit with the `v1` tag
-    with:
-      milliseconds: 1000
-
-  - name: Print Output
-    id: output
-    run: echo "${{ steps.test-action.outputs.time }}"
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize Issue
+        uses: CaiJingLong/action-groq@v1
+        with:
+          text: ${{ github.event.issue.body }}
+          api_key: ${{ secrets.GROQ_API_KEY }}
 ```
 
-## Publishing a New Release
+### Full Configuration
 
-This project includes a helper script, [`script/release`](./script/release)
-designed to streamline the process of tagging and pushing new releases for
-GitHub Actions.
+```yaml
+- uses: CaiJingLong/action-groq@v1
+  with:
+    # Text content to summarize (required)
+    text: "Your long text content..."
 
-GitHub Actions allows users to select a specific version of the action to use,
-based on release tags. This script simplifies this process by performing the
-following steps:
+    # Groq API Key (required)
+    api_key: ${{ secrets.GROQ_API_KEY }}
 
-1. **Retrieving the latest release tag:** The script starts by fetching the most
-   recent SemVer release tag of the current branch, by looking at the local data
-   available in your repository.
-1. **Prompting for a new release tag:** The user is then prompted to enter a new
-   release tag. To assist with this, the script displays the tag retrieved in
-   the previous step, and validates the format of the inputted tag (vX.X.X). The
-   user is also reminded to update the version field in package.json.
-1. **Tagging the new release:** The script then tags a new release and syncs the
-   separate major tag (e.g. v1, v2) with the new release tag (e.g. v1.0.0,
-   v2.1.2). When the user is creating a new major release, the script
-   auto-detects this and creates a `releases/v#` branch for the previous major
-   version.
-1. **Pushing changes to remote:** Finally, the script pushes the necessary
-   commits, tags and branches to the remote repository. From here, you will need
-   to create a new release in GitHub so users can easily reference the new tags
-   in their workflows.
+    # Model to use (optional, default: llama-3.3-70b-versatile)
+    model: "llama-3.3-70b-versatile"
+
+    # Maximum number of tokens in the output (optional, default: 500)
+    # Recommended range: 500-1000 for comprehensive summaries
+    max_tokens: 500
+
+    # Custom system prompt (optional)
+    prompt: "You are a helpful assistant that summarizes text concisely and accurately. Please provide a clear and comprehensive summary of the following text."
+```
+
+## Input Parameters
+
+| Parameter    | Required | Default              | Description                   |
+| ------------ | -------- | -------------------- | ----------------------------- |
+| `text`       | Yes      | -                    | Text content to summarize     |
+| `api_key`    | Yes      | -                    | Groq API Key                  |
+| `model`      | No       | `llama-3.3-70b-versatile` | Groq model to use (has a context window of 8192 tokens) |
+| `max_tokens` | No       | `500`                | Maximum length of the summary. Recommended range: 500-1000 tokens for comprehensive summaries |
+| `prompt`     | No       | See description      | Custom system prompt for the summarization. Default is a general summarization prompt. |
+
+## Output Parameters
+
+| Parameter | Description                           |
+| --------- | ------------------------------------- |
+| `summary` | Generated text summary                |
+| `error`   | Error message if summarization failed |
+
+## Examples
+
+### Summarize Issue Content
+
+```yaml
+name: Summarize Issue
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize Issue
+        uses: CaiJingLong/action-groq@v1
+        id: summary
+        with:
+          text: ${{ github.event.issue.body }}
+          api_key: ${{ secrets.GROQ_API_KEY }}
+          max_tokens: 100
+
+      - name: Add Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## Summary\n\n' + '${{ steps.summary.outputs.summary }}'
+            })
+```
+
+### Summarize Pull Request Description
+
+```yaml
+name: Summarize PR
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize PR
+        uses: CaiJingLong/action-groq@v1
+        id: summary
+        with:
+          text: ${{ github.event.pull_request.body }}
+          api_key: ${{ secrets.GROQ_API_KEY }}
+
+      - name: Add Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## PR Summary\n\n' + '${{ steps.summary.outputs.summary }}'
+            })
+```
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file
+
+## Contributing
+
+Issues and Pull Requests are welcome!
+
+## Development
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/CaiJingLong/action-groq.git
+cd action-groq
+```
+
+2. Install dependencies
+
+```bash
+pnpm install
+```
+
+3. Development and testing
+
+```bash
+# Run tests
+pnpm test
+
+# Build
+pnpm run package
+```
+
+## Related Projects
+
+- [Groq API](https://console.groq.com/docs/api)
+- [GitHub Actions](https://docs.github.com/en/actions)
+
+---
+
+# <a name="chinese-readme"></a>中文文档
+
+这个 GitHub Action 使用 Groq
+API 来对文本内容进行智能总结。它���以帮助你自动化处理文档、评论、问题描述等文本内容的总结工作。
+
+## 功能特点
+
+- 使用 Groq API 进行文本总结
+- 支持自定义模型选择
+- 可配置输出长度（上下文窗口最大 8192 tokens）
+- 可自定义系统提示词
+- 简单易用的接口
+
+## 使用方法
+
+### 前置要求
+
+1. 你需要一个 Groq API 密钥。可以从 [Groq Console](https://console.groq.com)
+   获取。
+2. 在你的 GitHub 仓库中设置 `GROQ_API_KEY` secret。
+
+### 基础用法
+
+```yaml
+name: Summarize Text
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize Issue
+        uses: CaiJingLong/action-groq@v1
+        with:
+          text: ${{ github.event.issue.body }}
+          api_key: ${{ secrets.GROQ_API_KEY }}
+```
+
+### 完整配置
+
+```yaml
+- uses: CaiJingLong/action-groq@v1
+  with:
+    # 需要总结的文本内容（必需）
+    text: "你的长文本内容..."
+
+    # Groq API 密钥（必需）
+    api_key: ${{ secrets.GROQ_API_KEY }}
+
+    # 使用的模型（可选，默认：llama-3.3-70b-versatile）
+    model: "llama-3.3-70b-versatile"
+
+    # 输出的最大 token 数（可选，默认：500）
+    # 推荐范围：500-1000，以获得全面的总结
+    max_tokens: 500
+
+    # 自定义系统提示词（可选）
+    prompt: "你是一个帮助用户总结文本的助手，请准确简洁地总结以下文本内容。"
+```
+
+## 输入参数
+
+| 参数         | 必需 | 默认值               | 描述               |
+| ------------ | ---- | -------------------- | ------------------ |
+| `text`       | 是   | -                    | 需要总结的文本内容 |
+| `api_key`    | 是   | -                    | Groq API 密钥      |
+| `model`      | 否   | `llama-3.3-70b-versatile` | 使用的 Groq 模型（上下文窗口为 8192 tokens） |
+| `max_tokens` | 否   | `500`                | 输出摘要的最大长度。推荐范围：500-1000 tokens，以获得全面的总结 |
+| `prompt`     | 否   | 见说明               | 自定义系统提示词。默认为通用的总结提示词。 |
+
+## 输出参数
+
+| 参数      | 描述                             |
+| --------- | -------------------------------- |
+| `summary` | 生成的文本摘要                   |
+| `error`   | 如果发生错误，这里会包含错误信息 |
+
+## 使用示例
+
+### 总结 Issue 内容
+
+```yaml
+name: Summarize Issue
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize Issue
+        uses: CaiJingLong/action-groq@v1
+        id: summary
+        with:
+          text: ${{ github.event.issue.body }}
+          api_key: ${{ secrets.GROQ_API_KEY }}
+          max_tokens: 100
+
+      - name: Add Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## 内容总结\n\n' + '${{ steps.summary.outputs.summary }}'
+            })
+```
+
+### 总结 Pull Request 描述
+
+```yaml
+name: Summarize PR
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize PR
+        uses: CaiJingLong/action-groq@v1
+        id: summary
+        with:
+          text: ${{ github.event.pull_request.body }}
+          api_key: ${{ secrets.GROQ_API_KEY }}
+
+      - name: Add Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## PR 总结\n\n' + '${{ steps.summary.outputs.summary }}'
+            })
+```
+
+## 许可证
+
+MIT License - 详见 [LICENSE](LICENSE) 文件
+
+## 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 开发
+
+1. 克隆仓库
+
+```bash
+git clone https://github.com/CaiJingLong/action-groq.git
+cd action-groq
+```
+
+2. 安装依赖
+
+```bash
+pnpm install
+```
+
+3. 开发和测试
+
+```bash
+# 运行测试
+pnpm test
+
+# 构建
+pnpm run package
+```
+
+## 相关项目
+
+- [Groq API](https://console.groq.com/docs/api)
+- [GitHub Actions](https://docs.github.com/en/actions)
