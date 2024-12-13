@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Summarize Content
-        # uses: CaiJingLong/action-groq@main
-        uses: ./
+        uses: CaiJingLong/action-groq@main
+        # uses: ./
         id: summary
         with:
           text: |
