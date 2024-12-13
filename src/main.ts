@@ -31,7 +31,7 @@ async function summarizeText(
   return completion.choices[0]?.message?.content || ''
 }
 
-async function run(): Promise<void> {
+export async function run(): Promise<void> {
   try {
     const text = core.getInput('text', { required: true })
     const apiKey = core.getInput('api_key', { required: true })
@@ -41,7 +41,7 @@ async function run(): Promise<void> {
 
     core.debug('Summarizing text using Groq API...')
     const summary = await summarizeText(text, apiKey, model, maxTokens, prompt)
-    
+
     core.setOutput('summary', summary)
     core.debug('Summary generated successfully')
   } catch (error) {
@@ -54,5 +54,3 @@ async function run(): Promise<void> {
     }
   }
 }
-
-run()

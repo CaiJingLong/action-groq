@@ -47,31 +47,34 @@ jobs:
 - uses: CaiJingLong/action-groq@v1
   with:
     # Text content to summarize (required)
-    text: "Your long text content..."
+    text: 'Your long text content...'
 
     # Groq API Key (required)
     api_key: ${{ secrets.GROQ_API_KEY }}
 
     # Model to use (optional, default: llama-3.3-70b-versatile)
-    model: "llama-3.3-70b-versatile"
+    model: 'llama-3.3-70b-versatile'
 
     # Maximum number of tokens in the output (optional, default: 500)
     # Recommended range: 500-1000 for comprehensive summaries
     max_tokens: 500
 
     # Custom system prompt (optional)
-    prompt: "You are a helpful assistant that summarizes text concisely and accurately. Please provide a clear and comprehensive summary of the following text."
+    prompt:
+      'You are a helpful assistant that summarizes text concisely and
+      accurately. Please provide a clear and comprehensive summary of the
+      following text.'
 ```
 
 ## Input Parameters
 
-| Parameter    | Required | Default              | Description                   |
-| ------------ | -------- | -------------------- | ----------------------------- |
-| `text`       | Yes      | -                    | Text content to summarize     |
-| `api_key`    | Yes      | -                    | Groq API Key                  |
-| `model`      | No       | `llama-3.3-70b-versatile` | Groq model to use (has a context window of 8192 tokens) |
-| `max_tokens` | No       | `500`                | Maximum length of the summary. Recommended range: 500-1000 tokens for comprehensive summaries |
-| `prompt`     | No       | See description      | Custom system prompt for the summarization. Default is a general summarization prompt. |
+| Parameter    | Required | Default                   | Description                                                                                   |
+| ------------ | -------- | ------------------------- | --------------------------------------------------------------------------------------------- |
+| `text`       | Yes      | -                         | Text content to summarize                                                                     |
+| `api_key`    | Yes      | -                         | Groq API Key                                                                                  |
+| `model`      | No       | `llama-3.3-70b-versatile` | Groq model to use (has a context window of 8192 tokens)                                       |
+| `max_tokens` | No       | `500`                     | Maximum length of the summary. Recommended range: 500-1000 tokens for comprehensive summaries |
+| `prompt`     | No       | See description           | Custom system prompt for the summarization. Default is a general summarization prompt.        |
 
 ## Output Parameters
 
@@ -231,31 +234,31 @@ jobs:
 - uses: CaiJingLong/action-groq@v1
   with:
     # 需要总结的文本内容（必需）
-    text: "你的长文本内容..."
+    text: '你的长文本内容...'
 
     # Groq API 密钥（必需）
     api_key: ${{ secrets.GROQ_API_KEY }}
 
     # 使用的模型（可选，默认：llama-3.3-70b-versatile）
-    model: "llama-3.3-70b-versatile"
+    model: 'llama-3.3-70b-versatile'
 
     # 输出的最大 token 数（可选，默认：500）
     # 推荐范围：500-1000，以获得全面的总结
     max_tokens: 500
 
     # 自定义系统提示词（可选）
-    prompt: "你是一个帮助用户总结文本的助手，请准确简洁地总结以下文本内容。"
+    prompt: '你是一个帮助用户总结文本的助手，请准确简洁地总结以下文本内容。'
 ```
 
 ## 输入参数
 
-| 参数         | 必需 | 默认值               | 描述               |
-| ------------ | ---- | -------------------- | ------------------ |
-| `text`       | 是   | -                    | 需要总结的文本内容 |
-| `api_key`    | 是   | -                    | Groq API 密钥      |
-| `model`      | 否   | `llama-3.3-70b-versatile` | 使用的 Groq 模型（上下文窗口为 8192 tokens） |
-| `max_tokens` | 否   | `500`                | 输出摘要的最大长度。推荐范围：500-1000 tokens，以获得全面的总结 |
-| `prompt`     | 否   | 见说明               | 自定义系统提示词。默认为通用的总结提示词。 |
+| 参数         | 必需 | 默认值                    | 描述                                                            |
+| ------------ | ---- | ------------------------- | --------------------------------------------------------------- |
+| `text`       | 是   | -                         | 需要总结的文本内容                                              |
+| `api_key`    | 是   | -                         | Groq API 密钥                                                   |
+| `model`      | 否   | `llama-3.3-70b-versatile` | 使用的 Groq 模型（上下文窗口为 8192 tokens）                    |
+| `max_tokens` | 否   | `500`                     | 输出摘要的最大长度。推荐范围：500-1000 tokens，以获得全面的总结 |
+| `prompt`     | 否   | 见说明                    | 自定义系统提示词。默认为通用的总结提示词。                      |
 
 ## 输出参数
 
