@@ -1,6 +1,24 @@
 import * as core from '@actions/core'
 import Groq from 'groq-sdk'
 
+function splitText(text: string, maxLength: number = 4000): string[] {
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text]
+  const chunks: string[] = []
+  let currentChunk = ''
+
+  for (const sentence of sentences) {
+    if ((currentChunk + sentence).length > maxLength) {
+      if (currentChunk) chunks.push(currentChunk.trim())
+      currentChunk = sentence
+    } else {
+      currentChunk += sentence
+    }
+  }
+  
+  if (currentChunk) chunks.push(currentChunk.trim())
+  return chunks
+}
+
 async function summarizeText(
   text: string,
   apiKey: string,
@@ -12,15 +30,43 @@ async function summarizeText(
     apiKey: apiKey
   })
 
-  const completion = await groq.chat.completions.create({
+  const chunks = splitText(text)
+  const summaries: string[] = []
+
+  for (const chunk of chunks) {
+    const completion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: 'system',
+          content: prompt
+        },
+        {
+          role: 'user',
+          content: chunk
+        }
+      ],
+      model: model,
+      max_tokens: maxTokens,
+      temperature: 0.3
+    })
+
+    const summary = completion.choices[0]?.message?.content || ''
+    summaries.push(summary)
+  }
+
+  if (summaries.length === 1) {
+    return summaries[0]
+  }
+
+  const finalCompletion = await groq.chat.completions.create({
     messages: [
       {
         role: 'system',
-        content: prompt
+        content: 'Please combine the following summaries into a single coherent summary. Maintain logical flow and remove any redundant information.'
       },
       {
         role: 'user',
-        content: `${text}`
+        content: summaries.join('\n---\n')
       }
     ],
     model: model,
@@ -28,7 +74,7 @@ async function summarizeText(
     temperature: 0.3
   })
 
-  return completion.choices[0]?.message?.content || ''
+  return finalCompletion.choices[0]?.message?.content || ''
 }
 
 export async function run(): Promise<void> {
